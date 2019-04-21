@@ -4,7 +4,7 @@ const HTMLPlugin = require('html-webpack-plugin')
 module.exports = {
     entry: path.join(__dirname, 'src/index.js'),
     output: {
-        filename: 'bundle.[hash:6].js',
+        filename: 'bundle.js',
         path: path.join(__dirname, 'dist')
     },
     module: {
@@ -12,16 +12,17 @@ module.exports = {
             {
                 test: /\.js$/,
                 use: [
+                    'babel-loader'
                 ]
             },
             {
                 test: /\.(jpg|png|gif|jpeg|svg)$/,
                 use: [
                     {
-                        loader: 'url-loader',
+                        loader: 'file-loader',
                         options: {
-                        limit: 1024,
-                        name: '[name].[ext]'
+                            name: '[name].[ext]',
+                            outputPath: 'img/'
                         }
                     }
                 ]
