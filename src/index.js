@@ -1,6 +1,9 @@
 import * as PIXI from 'pixi.js'
-import {TextureCache} from './declaration.js'
-import {reimu1, reimu2, reimu3, reimu4, jinja1, jinja2} from './imageload.js'
+import { TextureCache, Sprite } from './declaration.js'
+import { reimu1, buildingJson } from './imageload'
+import { createSpriteFromTiles, initSprite } from './utils'
+
+console.log('PIXI', PIXI)
 
 let renderer = PIXI.autoDetectRenderer(600, 400, {
     antialias: false,
@@ -15,34 +18,23 @@ document.body.appendChild(renderer.view)
 renderer.render(stage)
 
 PIXI.loader
-    .add('reimu1', reimu1)
-    .add('reimu2', reimu2)
-    .add('reimu3', reimu3)
-    .add('reimu4', reimu4)
-    .add('jinja1', jinja1)
-    .add('jinja2', jinja2)
+    .add('building', buildingJson, {crossorigin: 'anonymous'})
+    .add(reimu1)
     .on('progress', (loader, resources) => {
         console.log(resources.url)
         console.log(loader.progress)
     })
-    .load((loader, resources) => {
-        let reimu1 = new PIXI.Sprite(resources['reimu1'].texture)
-        // reimu1.scale = new PIXI.Point(.3, .3)
-        reimu1.scale.set(.3, .3)
-        // reimu1.rotation = .4
-        reimu1.position.set(100, 100)
-        stage.addChild(reimu1)
-        loadTileSucc()
-        renderer.render(stage)
-        // console.log(TextureCache['reimu1'])
-    })
+    .load(setup)
 
-function loadTileSucc () {
-    let r1 = new PIXI.Texture(TextureCache['reimu1'])
-    r1.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST
-    r1.frame = new PIXI.Rectangle(200, 200, 50, 50)
-    let tile = new PIXI.Sprite(r1)
-    tile.position.set(322, 122)
-    stage.addChild(tile)
+function setup (loader, resources) {
+    console.log('textures', resources.building.textures)
+    const bd1 = createSpriteFromTiles(resources, 'building', 'building_1.png')
+    const bd2 = createSpriteFromTiles(resources, 'building', 'building_2.png')
+    console.log('bd1', bd1)
+    initSprite({stage, sprite: bd1, x: 100, y: 50, sx: .3, sy: .3, rot: 0})
+    initSprite({stage, sprite: bd2, x: 300, y: 100, sx: .4, sy: .4, rot: 1})
+    console.log('container size: ', stage.width, stage.height)
+    console.log('renderer size', renderer.width, renderer.height)
+    renderer.render(stage)
 }
 // Other ways
