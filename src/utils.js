@@ -25,7 +25,7 @@ function createSpriteFromTiles (resources, tileName, txName) {
 function initSprite ({stage, sprite, x, y, sx, sy, rot}) {
   sprite.position.set(x, y)
   sprite.scale.set(sx, sy)
-  sprite.rotation = rot
+  rot && (sprite.rotation = rot)
   stage.addChild(sprite)
 }
 
