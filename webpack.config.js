@@ -22,7 +22,19 @@ module.exports = {
                         loader: 'file-loader',
                         options: {
                             name: '[name].[ext]',
-                            outputPath: 'img/'
+                            outputPath: 'static/'
+                        }
+                    }
+                ]
+            },
+            {
+                type: 'javascript/auto',
+                test: /\.json$/,
+                use: [{
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'static/'
                         }
                     }
                 ]
