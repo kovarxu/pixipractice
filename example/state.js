@@ -15,12 +15,12 @@ var gameState = {};
 
 // 状态切换
 gameState.switch = function (to, ...arg) {
-  return changeState(0, to, ...arg);
+  return pushState(0, to, ...arg);
 }
 
 // 新状态入栈
 gameState.push = function (to, ...arg) {
-  return changeState(1, to, ...arg);
+  return pushState(1, to, ...arg);
 }
 
 // 活动状态出栈
@@ -34,10 +34,10 @@ gameState.pop = function (noop, ...arg) {
   return (to.resume || NOOP)(pre, ...arg);
 }
 
-function changeState (offset, to, ...arg) {
+function pushState (offset, to, ...arg) {
   var pre = stack[stack.length - 1];
   // 任何状态的init方法只被执行一次
-  ;(to.init || NOOP)(to);
+  ;(to.init || NOOP)(...arg);
   to.init = undefined;
   
   ;(pre.leave || NOOP)(...arg);
