@@ -36,12 +36,8 @@ module.exports = {
     ],
     devtool: '#cheap-module-eval-source-map',
     devServer: {
-        port: 5432,
-        host: '127.0.0.1',
-        overlay: {
-            errors: true
-        },
-        hot: true,
-        open: true
+        host: 'localhost',
+        port: '5432',
+        contentBase: path.resolve(__dirname, 'static')
     }
 }
